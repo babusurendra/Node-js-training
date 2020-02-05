@@ -8,13 +8,15 @@ app.use(cookieParser());
 const userRoutes = require('./routes/user.routes');
 const empRoutes = require('./routes/emp-routes');
 const service = require('./services/fetch-users');
-// const crudRoutes = require('./routes/crud-routes');
+ const crudRoutes = require('./routes/crud-routes');
  mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('connect',console.log.bind(console,'db connected===>'));
+
 app.use('/users',userRoutes);
 app.use('/emp',empRoutes);
-//app.use('/crudRoutes',crudRoutes);
+app.use('/crudRoutes',crudRoutes);
 app.get('/posts',service.fetchPosts)
 app.listen(3500, (error, success) => {
     if (error) {
